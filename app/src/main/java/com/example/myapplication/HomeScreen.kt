@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.myapplication.ui.Note
 import com.example.myapplication.ui.Screen
 import com.example.myapplication.ui.theme.Teal200
 
@@ -36,16 +37,16 @@ import com.example.myapplication.ui.theme.Teal200
 fun Home(navController: NavController, TitleIs: String?, BodyIs: String?) {
 
     //var Title by remember { mutableStateOf(TitleIs)}
-    var TitleList = mutableListOf<String>()
-    TitleList.add(TitleIs!!)
+    var TitleList = mutableListOf<Note>()
+    TitleList.add(Note(TitleIs!!,BodyIs!!))
     Log.e("Home: ",TitleIs.toString() )
     Log.e("Home2: ",BodyIs.toString() )
 
     // Title = " "
 
    // var Body by remember { mutableStateOf(BodyIs)}
-    var BodyList = mutableListOf<String>()
-    BodyList.add(BodyIs!!)
+//    var BodyList = mutableListOf<String>()
+//    BodyList.add(BodyIs!!)
    // Body = " "
 
 
@@ -72,12 +73,10 @@ fun Home(navController: NavController, TitleIs: String?, BodyIs: String?) {
 
                 Box {
                     LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
-                        items(TitleList) { item ->
-                            ToDo(title = item,"")
+                        items(Util.note) { item ->
+                            ToDo(title = item.title,item.body,Modifier)
                         }
-                        items(BodyList) { item ->
-                            ToDo(title = "",item)
-                        }
+
                     }
                 }
             }

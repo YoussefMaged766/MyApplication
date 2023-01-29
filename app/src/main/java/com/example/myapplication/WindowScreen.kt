@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.myapplication.ui.Note
 import com.example.myapplication.ui.Screen
 
 
@@ -82,7 +83,9 @@ fun Window (navController: NavController) {
 //                     BodyTemp =  BodyValue
 //                     TitleValue = null.toString()
 //                     BodyValue = null.toString()
-                    navController.navigate(Screen.Home.withArgs(TitleValue,BodyValue))
+//                    navController.navigate(Screen.Home.withArgs(TitleValue,BodyValue))
+                    navController.navigate(Screen.Home.route)
+                    Util.note.add(Note(TitleValue,BodyValue))
                     Log.e( "Window: ",TitleValue )
 
                 }

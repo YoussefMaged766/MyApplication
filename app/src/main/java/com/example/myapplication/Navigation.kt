@@ -23,7 +23,8 @@ fun Nav() {
 
         composable(
 //            route = "home?title={title}&body={body}",
-            route = Screen.Home.route+"/{title}/{body}",
+//            route = Screen.Home.route+"/{title}/{body}",
+            route = Screen.Home.route,
             arguments = listOf(
                 navArgument(name = "title")
                 {
