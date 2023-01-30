@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myapplication.ui.Note
 
 
 class MainActivity : ComponentActivity() {
@@ -27,37 +28,38 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Nav()
-            test ()
+            test()
 
         }
     }
 }
 
 
-
-
-
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun test (){
+fun test() {
 
 
 }
 
 @Composable
-fun ToDo(title: String, body: String,modifier: Modifier = Modifier){
+inline fun ToDo(note: Note, crossinline onDelete: (Note) -> Unit, modifier: Modifier = Modifier) {
 
     val expanded = remember { mutableStateOf(false) }
 
-    val extraPadding by animateDpAsState( if (expanded.value) 24.dp else 0.dp,
-        animationSpec = spring( dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessLow)
+    val extraPadding by animateDpAsState(
+        if (expanded.value) 24.dp else 0.dp,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        )
     )
 
     Surface(
         color = MaterialTheme.colors.primary,
         modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
 
-    ) {
+        ) {
 
         Column(
             modifier = Modifier
@@ -73,7 +75,7 @@ fun ToDo(title: String, body: String,modifier: Modifier = Modifier){
                 ) {
 
                     Text(
-                        text = title, style = MaterialTheme.typography.h4.copy(
+                        text = note.title, style = MaterialTheme.typography.h4.copy(
                             fontWeight = FontWeight.ExtraBold
                         )
                     )
@@ -88,18 +90,25 @@ fun ToDo(title: String, body: String,modifier: Modifier = Modifier){
 
                 Column(
                     modifier = Modifier.padding(
-                     bottom = extraPadding.coerceAtLeast(0.dp)
-
-                    )
+                        bottom = extraPadding.coerceAtLeast(0.dp)
+                    ).fillMaxWidth()
                 ) {
                     Text(
-                        text = body , style = MaterialTheme.typography.h4.copy(
+                        text = note.body, style = MaterialTheme.typography.h4.copy(
                             fontWeight = FontWeight.ExtraBold
                         )
                     )
+                    Row(
+                        Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
                         IconButton(
-                            onClick = {  },
-                            modifier.align(End)
+                            onClick = {
+                                val list = Util.note.value.toMutableList()
+                                list.remove(note)
+                                Util.note.value = list
+                                onDelete(note)
+                            },
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
@@ -107,6 +116,7 @@ fun ToDo(title: String, body: String,modifier: Modifier = Modifier){
                                 tint = MaterialTheme.colors.onSurface
                             )
                         }
+                    }
 
 
                 }
@@ -120,7 +130,6 @@ fun ToDo(title: String, body: String,modifier: Modifier = Modifier){
     }
 
 }
-
 
 
 @Preview(showBackground = true)

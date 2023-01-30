@@ -35,7 +35,9 @@ import com.example.myapplication.ui.theme.Teal200
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun Home(navController: NavController, TitleIs: String?, BodyIs: String?) {
-
+    val notes = remember {
+        Util.note
+    }
     //var Title by remember { mutableStateOf(TitleIs)}
     var TitleList = mutableListOf<Note>()
     TitleList.add(Note(TitleIs!!,BodyIs!!))
@@ -73,8 +75,12 @@ fun Home(navController: NavController, TitleIs: String?, BodyIs: String?) {
 
                 Box {
                     LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
-                        items(Util.note) { item ->
-                            ToDo(title = item.title,item.body,Modifier)
+                        items(notes.value) { item ->
+                            ToDo(item, onDelete = {
+                                val n = notes.value.toMutableList()
+                                n.remove(it)
+                                notes.value= n.toList()
+                            },Modifier)
                         }
 
                     }

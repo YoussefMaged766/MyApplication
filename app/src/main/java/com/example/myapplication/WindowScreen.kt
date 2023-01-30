@@ -85,7 +85,9 @@ fun Window (navController: NavController) {
 //                     BodyValue = null.toString()
 //                    navController.navigate(Screen.Home.withArgs(TitleValue,BodyValue))
                     navController.navigate(Screen.Home.route)
-                    Util.note.add(Note(TitleValue,BodyValue))
+                    val list = Util.note.value.toMutableList()
+                    list.add(Note(TitleValue,BodyValue))
+                    Util.note.value = list
                     Log.e( "Window: ",TitleValue )
 
                 }
